@@ -1,0 +1,1265 @@
+# Laravel Migrations cho dự án LT365
+
+## 1. Lệnh tạo migration
+
+```bash
+# Users Management
+php artisan make:migration create_users_table
+php artisan make:migration create_admin_users_table
+
+# Content Management
+php artisan make:migration create_levels_table
+php artisan make:migration create_subjects_table
+php artisan make:migration create_document_types_table
+php artisan make:migration create_difficulty_levels_table
+php artisan make:migration create_documents_table
+php artisan make:migration create_document_tags_table
+
+# School Management
+php artisan make:migration create_schools_table
+php artisan make:migration create_school_types_table
+php artisan make:migration create_school_type_links_table
+
+# News & Content
+php artisan make:migration create_news_categories_table
+php artisan make:migration create_news_table
+php artisan make:migration create_news_category_links_table
+php artisan make:migration create_news_tags_table
+php artisan make:migration create_pages_table
+
+# E-commerce & Transactions
+php artisan make:migration create_orders_table
+php artisan make:migration create_order_items_table
+php artisan make:migration create_user_downloads_table
+
+# Centers & Teachers
+php artisan make:migration create_centers_table
+php artisan make:migration create_center_subject_links_table
+php artisan make:migration create_center_level_links_table
+php artisan make:migration create_teachers_table
+php artisan make:migration create_teacher_subject_links_table
+php artisan make:migration create_teacher_level_links_table
+
+# Interaction & Engagement
+php artisan make:migration create_ratings_table
+php artisan make:migration create_comments_table
+php artisan make:migration create_user_favorites_table
+
+# Other
+php artisan make:migration create_provinces_table
+php artisan make:migration create_communes_table
+php artisan make:migration create_tags_table
+php artisan make:migration create_settings_table
+php artisan make:migration create_menus_table
+php artisan make:migration create_contacts_table
+php artisan make:migration create_newsletters_table
+```
+
+## 2. Nội dung Migration Files
+
+### 2.1 Users Management
+
+**create_users_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('phone')->nullable();
+            $table->string('full_name');
+            $table->string('avatar')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->text('address')->nullable();
+            $table->text('bio')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamp('last_login_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+    }
+};
+```
+
+**create_admin_users_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('admin_users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('username')->unique();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->tinyInteger('status')->default(0);
+            $table->timestamp('last_login_at')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('admin_users');
+    }
+};
+```
+
+### 2.2 Content Management
+
+**create_levels_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('levels', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('parent_id')->default(0);
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->integer('sort_order')->default(9999);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('levels');
+    }
+};
+```
+
+**create_subjects_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('subjects', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->integer('sort_order')->default(9999);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('subjects');
+    }
+};
+```
+
+**create_document_types_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('document_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->integer('sort_order')->default(9999);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('document_types');
+    }
+};
+```
+
+**create_difficulty_levels_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('difficulty_levels', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->integer('sort_order')->default(9999);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('difficulty_levels');
+    }
+};
+```
+
+**create_documents_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('documents', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('image')->nullable();
+            $table->text('description')->nullable();
+            $table->longText('content')->nullable();
+            $table->string('file_path')->nullable();
+            $table->unsignedBigInteger('file_size')->default(0);
+            $table->string('file_type')->nullable();
+            $table->decimal('price', 10, 2)->default(0);
+            $table->integer('download_count')->default(0);
+            $table->unsignedBigInteger('level_id')->default(0);
+            $table->unsignedBigInteger('subject_id')->default(0);
+            $table->unsignedBigInteger('document_type_id')->default(0);
+            $table->unsignedBigInteger('difficulty_level_id')->default(0);
+            $table->unsignedBigInteger('school_id')->default(0);
+            $table->year('year')->default(0);
+            $table->boolean('is_featured')->default(false);
+            $table->tinyInteger('status')->default(0);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->timestamps();
+            
+            $table->index(['level_id', 'subject_id', 'document_type_id']);
+            $table->index('is_featured');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('documents');
+    }
+};
+```
+
+**create_document_tags_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('document_tags', function (Blueprint $table) {
+            $table->unsignedBigInteger('document_id');
+            $table->unsignedBigInteger('tag_id');
+            
+            $table->primary(['document_id', 'tag_id']);
+            $table->index('document_id');
+            $table->index('tag_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('document_tags');
+    }
+};
+```
+
+### 2.3 School Management
+
+**create_schools_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('schools', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('image')->nullable();
+            $table->unsignedBigInteger('level_id')->default(0);
+            $table->text('address')->nullable();
+            $table->unsignedBigInteger('province_id')->default(0);
+            $table->unsignedBigInteger('commune_id')->default(0);
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->string('tagline')->nullable();
+            $table->longText('content')->nullable();
+            $table->string('tuition_fee')->nullable();
+            $table->json('admission_info')->nullable();
+            $table->boolean('is_featured')->default(false);
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('level_id');
+            $table->index('province_id');
+            $table->index('is_featured');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('schools');
+    }
+};
+```
+
+**create_school_types_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('school_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('school_types');
+    }
+};
+```
+
+**create_school_type_links_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('school_type_links', function (Blueprint $table) {
+            $table->unsignedBigInteger('school_id');
+            $table->unsignedBigInteger('school_type_id');
+            
+            $table->primary(['school_id', 'school_type_id']);
+            $table->index('school_id');
+            $table->index('school_type_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('school_type_links');
+    }
+};
+```
+
+### 2.4 News & Content
+
+**create_news_categories_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('news_categories', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('parent_id')->default(0);
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->integer('sort_order')->default(9999);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('news_categories');
+    }
+};
+```
+
+**create_news_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('news', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('admin_user_id');
+            $table->unsignedBigInteger('school_id')->default(0);
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('image')->nullable();
+            $table->longText('content')->nullable();
+            $table->integer('view_count')->default(0);
+            $table->boolean('is_featured')->default(false);
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('admin_user_id');
+            $table->index('school_id');
+            $table->index('is_featured');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('news');
+    }
+};
+```
+
+**create_news_category_links_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('news_category_links', function (Blueprint $table) {
+            $table->unsignedBigInteger('news_id');
+            $table->unsignedBigInteger('category_id');
+            
+            $table->primary(['news_id', 'category_id']);
+            $table->index('news_id');
+            $table->index('category_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('news_category_links');
+    }
+};
+```
+
+**create_news_tags_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('news_tags', function (Blueprint $table) {
+            $table->unsignedBigInteger('news_id');
+            $table->unsignedBigInteger('tag_id');
+            
+            $table->primary(['news_id', 'tag_id']);
+            $table->index('news_id');
+            $table->index('tag_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('news_tags');
+    }
+};
+```
+
+**create_pages_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('pages', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->longText('content')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('pages');
+    }
+};
+```
+
+### 2.5 E-commerce & Transactions
+
+**create_orders_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->decimal('total_amount', 10, 2);
+            $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_status')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->timestamps();
+            
+            $table->index('user_id');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('orders');
+    }
+};
+```
+
+**create_order_items_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('order_items', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('document_id');
+            $table->decimal('price', 10, 2);
+            $table->timestamps();
+            
+            $table->index('order_id');
+            $table->index('document_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('order_items');
+    }
+};
+```
+
+**create_user_downloads_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('user_downloads', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('document_id');
+            $table->timestamp('downloaded_at');
+            $table->string('ip_address');
+            
+            $table->index('user_id');
+            $table->index('document_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('user_downloads');
+    }
+};
+```
+
+### 2.6 Centers & Teachers
+
+**create_centers_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('centers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('tagline')->nullable();
+            $table->integer('experience')->default(0);
+            $table->text('address')->nullable();
+            $table->unsignedBigInteger('province_id')->default(0);
+            $table->unsignedBigInteger('commune_id')->default(0);
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->longText('content')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('province_id');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('centers');
+    }
+};
+```
+
+**create_center_subject_links_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('center_subject_links', function (Blueprint $table) {
+            $table->unsignedBigInteger('center_id');
+            $table->unsignedBigInteger('subject_id');
+            
+            $table->primary(['center_id', 'subject_id']);
+            $table->index('center_id');
+            $table->index('subject_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('center_subject_links');
+    }
+};
+```
+
+**create_center_level_links_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('center_level_links', function (Blueprint $table) {
+            $table->unsignedBigInteger('center_id');
+            $table->unsignedBigInteger('level_id');
+            
+            $table->primary(['center_id', 'level_id']);
+            $table->index('center_id');
+            $table->index('level_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('center_level_links');
+    }
+};
+```
+
+**create_teachers_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('teachers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('tagline')->nullable();
+            $table->integer('experience')->default(0);
+            $table->text('address')->nullable();
+            $table->unsignedBigInteger('province_id')->default(0);
+            $table->unsignedBigInteger('commune_id')->default(0);
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->longText('content')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('province_id');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('teachers');
+    }
+};
+```
+
+**create_teacher_subject_links_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('teacher_subject_links', function (Blueprint $table) {
+            $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('subject_id');
+            
+            $table->primary(['teacher_id', 'subject_id']);
+            $table->index('teacher_id');
+            $table->index('subject_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('teacher_subject_links');
+    }
+};
+```
+
+**create_teacher_level_links_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('teacher_level_links', function (Blueprint $table) {
+            $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('level_id');
+            
+            $table->primary(['teacher_id', 'level_id']);
+            $table->index('teacher_id');
+            $table->index('level_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('teacher_level_links');
+    }
+};
+```
+
+### 2.7 Interaction & Engagement
+
+**create_ratings_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('ratings', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('type');
+            $table->unsignedBigInteger('type_id');
+            $table->tinyInteger('rating');
+            $table->text('review')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('user_id');
+            $table->index(['type', 'type_id']);
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('ratings');
+    }
+};
+```
+
+**create_comments_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('type');
+            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('parent_id')->default(0);
+            $table->text('content');
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('user_id');
+            $table->index(['type', 'type_id']);
+            $table->index('parent_id');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('comments');
+    }
+};
+```
+
+**create_user_favorites_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('user_favorites', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('type');
+            $table->unsignedBigInteger('type_id');
+            $table->timestamps();
+            
+            $table->index('user_id');
+            $table->index(['type', 'type_id']);
+            $table->unique(['user_id', 'type', 'type_id']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('user_favorites');
+    }
+};
+```
+
+### 2.8 Other Tables
+
+**create_provinces_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('provinces', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('provinces');
+    }
+};
+```
+
+**create_communes_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('communes', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('province_id');
+            $table->string('name');
+            $table->string('slug');
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('province_id');
+            $table->unique(['province_id', 'slug']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('communes');
+    }
+};
+```
+
+**create_tags_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('tags');
+    }
+};
+```
+
+**create_settings_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('settings', function (Blueprint $table) {
+            $table->id();
+            $table->string('key')->unique();
+            $table->json('value')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('settings');
+    }
+};
+```
+
+**create_menus_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('menus', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('url');
+            $table->unsignedBigInteger('parent_id')->default(0);
+            $table->integer('sort_order')->default(9999);
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('parent_id');
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('menus');
+    }
+};
+```
+
+**create_contacts_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('phone');
+            $table->string('email');
+            $table->string('subject');
+            $table->text('content');
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('contacts');
+    }
+};
+```
+
+**create_newsletters_table.php**
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('newsletters', function (Blueprint $table) {
+            $table->id();
+            $table->string('email')->unique();
+            $table->tinyInteger('status')->default(0);
+            $table->timestamps();
+            
+            $table->index('status');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('newsletters');
+    }
+};
+```
+
+## 3. Chạy Migration
+
+Sau khi tạo tất cả các file migration, bạn có thể chạy lệnh để tạo các bảng:
+
+```bash
+php artisan migrate
+```
+
+## 4. Lưu ý quan trọng
+
+### 4.1 Foreign Key Constraints (Tùy chọn)
+Nếu muốn thêm foreign key constraints, bạn có thể tạo migration riêng:
+
+```bash
+php artisan make:migration add_foreign_keys_to_tables
+```
+
+### 4.2 Indexes
+Các index quan trọng đã được thêm vào các migration để tối ưu hiệu suất truy vấn:
+- Index cho các trường `status`, `is_featured`
+- Index cho các foreign key
+- Composite index cho các truy vấn phức tạp
+
+### 4.3 Seeder Data
+Bạn nên tạo seeder để thêm dữ liệu mẫu:
+
+```bash
+php artisan make:seeder DatabaseSeeder
+php artisan make:seeder AdminUserSeeder
+php artisan make:seeder LevelSeeder
+php artisan make:seeder SubjectSeeder
+# ... các seeder khác
+```
+
+### 4.4 Model Relationships
+Nhớ tạo các Model với relationships phù hợp sau khi migration hoàn thành:
+
+```bash
+php artisan make:model User
+php artisan make:model AdminUser
+php artisan make:model Level
+php artisan make:model Subject
+php artisan make:model Document
+# ... các model khác
+```
+
+### 4.5 Validation Rules
+Trong các Model và Form Request, hãy thêm validation rules phù hợp với cấu trúc database đã thiết kế.
+
+## 5. Lệnh rollback (nếu cần)
+
+```bash
+# Rollback migration cuối cùng
+php artisan migrate:rollback
+
+# Rollback tất cả migrations
+php artisan migrate:reset
+
+# Rollback và chạy lại tất cả
+php artisan migrate:refresh
+```

@@ -1,0 +1,51 @@
+
+# Users Management
+php artisan make:migration create_users_table
+php artisan make:migration create_admin_users_table
+
+# Content Management
+php artisan make:migration create_levels_table
+php artisan make:migration create_subjects_table
+php artisan make:migration create_document_types_table
+php artisan make:migration create_difficulty_levels_table
+php artisan make:migration create_documents_table
+php artisan make:migration create_document_tags_table
+
+# School Management
+php artisan make:migration create_schools_table
+php artisan make:migration create_school_types_table
+php artisan make:migration create_school_type_links_table
+
+# News & Content
+php artisan make:migration create_news_categories_table
+php artisan make:migration create_news_table
+php artisan make:migration create_news_category_links_table
+php artisan make:migration create_news_tags_table
+php artisan make:migration create_pages_table
+
+# E-commerce & Transactions
+php artisan make:migration create_orders_table
+php artisan make:migration create_order_items_table
+php artisan make:migration create_user_downloads_table
+
+# Centers & Teachers
+php artisan make:migration create_centers_table
+php artisan make:migration create_center_subject_links_table
+php artisan make:migration create_center_level_links_table
+php artisan make:migration create_teachers_table
+php artisan make:migration create_teacher_subject_links_table
+php artisan make:migration create_teacher_level_links_table
+
+# Interaction & Engagement
+php artisan make:migration create_ratings_table
+php artisan make:migration create_comments_table
+php artisan make:migration create_user_favorites_table
+
+# Other
+php artisan make:migration create_provinces_table
+php artisan make:migration create_communes_table
+php artisan make:migration create_tags_table
+php artisan make:migration create_settings_table
+php artisan make:migration create_menus_table
+php artisan make:migration create_contacts_table
+php artisan make:migration create_newsletters_table
