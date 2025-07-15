@@ -7,10 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Spatie\Permission\Traits\HasRoles;
 
 class AdminUser extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
+
+    protected $guard_name = 'admin';
 
     protected $fillable = [
         'name',
@@ -37,6 +40,6 @@ class AdminUser extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->status === 1; // Chỉ cho phép admin có status = 1
+        return $this->status === 1;
     }
 }
