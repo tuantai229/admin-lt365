@@ -9,13 +9,16 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Helpers\FormatHelper;
 
 class AdminUserResource extends Resource
 {
     protected static ?string $model = AdminUser::class;
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'Quản lý hệ thống';
-    protected static ?string $navigationLabel = 'Admin Users';
+    protected static ?string $navigationLabel = 'Tài khoản quản trị';
+    protected static ?string $modelLabel = 'Tài khoản quản trị';
+    protected static ?string $pluralModelLabel = 'Tài khoản quản trị';
 
     // Kiểm tra permission trực tiếp
     public static function shouldRegisterNavigation(): bool
@@ -81,13 +84,21 @@ class AdminUserResource extends Resource
                 Tables\Columns\TextColumn::make('username')->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Phân quyền')
                     ->badge()
                     ->separator(','),
                 Tables\Columns\ToggleColumn::make('status'),
                 Tables\Columns\TextColumn::make('last_login_at')
-                    ->dateTime(),
+                    ->label('Lần đăng nhập cuối')
+                    ->formatStateUsing(function ($state) {
+                        if ($state === null) {
+                            return 'Chưa đăng nhập';
+                        }
+                        return FormatHelper::datetime($state);
+                    })
+                    ->placeholder('N/A'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->formatStateUsing(fn ($state) => FormatHelper::datetime($state))
                     ->sortable(),
             ])
             ->actions([

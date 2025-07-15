@@ -51,6 +51,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\UpdateLastLoginAt::class, //thêm update thời gian đăng nhập
             ])
             ->authMiddleware([
                 Authenticate::class,
