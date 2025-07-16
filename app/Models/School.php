@@ -78,6 +78,21 @@ class School extends Model
         return $this->morphMany(Comment::class, 'commentable', 'type', 'type_id');
     }
 
+    public function admissions(): HasMany
+    {
+        return $this->hasMany(SchoolAdmission::class);
+    }
+
+    public function admissionMethods(): HasMany
+    {
+        return $this->hasMany(SchoolAdmissionMethod::class);
+    }
+
+    public function admissionStats(): HasMany
+    {
+        return $this->hasMany(SchoolAdmissionStat::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 1);
