@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                \App\Filament\Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -56,12 +56,24 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->navigationGroups([
+                'Dashboard',
+                'Nội dung chính',
+                'Giáo dục',
+                'Bán hàng',
+                'Tương tác',
+                'Nội dung phụ',
+                'Quản lý Media',
+                'Người dùng',
+                'Hệ thống',
+                'Cài đặt',
+            ])
             ->plugins([
                 \Awcodes\Curator\CuratorPlugin::make()
                     ->label('Media')
                     ->pluralLabel('Media')
                     ->navigationIcon('heroicon-o-photo')
-                    ->navigationGroup('Quản lý nội dung')
+                    ->navigationGroup('Quản lý Media')
                     ->navigationSort(1)
                     ->navigationCountBadge(),
             ]);

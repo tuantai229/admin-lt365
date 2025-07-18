@@ -29,7 +29,7 @@ class SchoolResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung chính';
 
     protected static ?string $navigationLabel = 'Trường học';
 
@@ -37,7 +37,7 @@ class SchoolResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Trường học';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {

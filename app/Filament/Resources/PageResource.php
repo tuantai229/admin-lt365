@@ -19,7 +19,7 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung phụ';
 
     protected static ?string $navigationLabel = 'Trang đơn';
 
@@ -27,7 +27,7 @@ class PageResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Trang đơn';
 
-    protected static ?int $navigationSort = 8;
+    protected static ?int $navigationSort = 7;
 
     public static function form(Form $form): Form
     {

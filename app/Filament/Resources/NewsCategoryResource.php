@@ -17,7 +17,7 @@ class NewsCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung phụ';
 
     protected static ?string $navigationLabel = 'Danh mục tin tức';
 
@@ -25,7 +25,7 @@ class NewsCategoryResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Danh mục tin tức';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {

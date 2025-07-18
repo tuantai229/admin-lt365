@@ -15,10 +15,11 @@ class AdminUserResource extends Resource
 {
     protected static ?string $model = AdminUser::class;
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationGroup = 'Quản lý hệ thống';
+    protected static ?string $navigationGroup = 'Hệ thống';
     protected static ?string $navigationLabel = 'Tài khoản quản trị';
     protected static ?string $modelLabel = 'Tài khoản quản trị';
     protected static ?string $pluralModelLabel = 'Tài khoản quản trị';
+    protected static ?int $navigationSort = 1;
 
     // Kiểm tra permission trực tiếp
     public static function shouldRegisterNavigation(): bool

@@ -18,7 +18,7 @@ class SchoolTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung phụ';
 
     protected static ?string $navigationLabel = 'Loại trường';
 

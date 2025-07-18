@@ -18,7 +18,7 @@ class DifficultyLevelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-signal';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung phụ';
 
     protected static ?string $navigationLabel = 'Độ khó';
 

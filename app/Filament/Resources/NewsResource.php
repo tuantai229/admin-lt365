@@ -24,7 +24,7 @@ class NewsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung chính';
 
     protected static ?string $navigationLabel = 'Tin tức';
 
@@ -32,7 +32,7 @@ class NewsResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Tin tức';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

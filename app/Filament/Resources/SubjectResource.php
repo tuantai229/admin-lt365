@@ -18,7 +18,7 @@ class SubjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung phụ';
 
     protected static ?string $navigationLabel = 'Môn học';
 

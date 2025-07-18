@@ -25,7 +25,7 @@ class DocumentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung chính';
 
     protected static ?string $navigationLabel = 'Tài liệu';
 

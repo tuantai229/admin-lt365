@@ -15,10 +15,11 @@ class NewsletterResource extends Resource
 {
     protected static ?string $model = Newsletter::class;
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
-    protected static ?string $navigationGroup = 'Quản lý liên hệ';
+    protected static ?string $navigationGroup = 'Tương tác';
     protected static ?string $navigationLabel = 'Đăng ký bản tin';
     protected static ?string $modelLabel = 'Đăng ký bản tin';
     protected static ?string $pluralModelLabel = 'Đăng ký bản tin';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

@@ -27,7 +27,7 @@ class CenterResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
-    protected static ?string $navigationGroup = 'Quản lý giáo dục';
+    protected static ?string $navigationGroup = 'Giáo dục';
 
     protected static ?string $navigationLabel = 'Trung tâm';
 
@@ -35,7 +35,7 @@ class CenterResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Trung tâm';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {

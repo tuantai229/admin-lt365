@@ -27,7 +27,7 @@ class TeacherResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $navigationGroup = 'Quản lý giáo dục';
+    protected static ?string $navigationGroup = 'Giáo dục';
 
     protected static ?string $navigationLabel = 'Giáo viên';
 
@@ -35,7 +35,7 @@ class TeacherResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Giáo viên';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {

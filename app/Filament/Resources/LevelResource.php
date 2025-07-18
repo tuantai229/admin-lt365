@@ -17,7 +17,7 @@ class LevelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
-    protected static ?string $navigationGroup = 'Quản lý nội dung';
+    protected static ?string $navigationGroup = 'Nội dung phụ';
 
     protected static ?string $navigationLabel = 'Cấp học';
 
