@@ -134,18 +134,18 @@
                             />
                         @endif
 
-                        <div class="absolute top-0 right-0">
-                            <div class="relative flex items-center bg-gray-950 divide-x divide-gray-700 rounded-bl-lg shadow-md">
+                        <div class="absolute top-0 right-0" style="right:0;">
+                            <div class="relative flex items-center bg-primary-500 text-white divide-x divide-primary-400 rounded-br-lg shadow-md">
                                 @if ($isMultiple)
                                     <div
                                         x-sortable-handle
-                                        class="flex items-center justify-center flex-none w-10 h-10 transition text-gray-400 hover:text-gray-300"
+                                        class="flex items-center justify-center flex-none w-10 h-10 transition hover:text-primary-200"
                                     >
                                         {{ $getAction('reorder') }}
                                     </div>
                                 @endif
 
-                                <div class="flex items-center justify-center flex-none w-10 h-10">
+                                <div class="flex items-center justify-center flex-none w-16 h-16">
                                     <x-filament-actions::group
                                         :actions="[
                                             $getAction('view')(['url' => $item['url']]),
@@ -153,8 +153,8 @@
                                             $getAction('download')(['uuid' => $uuid]),
                                             $getAction('remove')(['uuid' => $uuid]),
                                         ]"
-                                        color="gray"
-                                        size="xs"
+                                        color="white"
+                                        size="lg"
                                         dropdown-placement="bottom-end"
                                     />
                                 </div>
