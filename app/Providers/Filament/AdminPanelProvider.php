@@ -6,6 +6,8 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+use App\Filament\Pages\ChangePassword;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -76,6 +78,12 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Quản lý Media')
                     ->navigationSort(1)
                     ->navigationCountBadge(),
+            ])
+            ->userMenuItems([
+                'password' => MenuItem::make()
+                    ->label('Đổi mật khẩu')
+                    ->url(fn (): string => ChangePassword::getUrl())
+                    ->icon('heroicon-o-key'),
             ]);
     }
 }
