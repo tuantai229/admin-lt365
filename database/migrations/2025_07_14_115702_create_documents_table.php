@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('image')->nullable();
+            $table->unsignedBigInteger('featured_image_id')->nullable();
             $table->text('description')->nullable();
             $table->longText('content')->nullable();
             $table->text('file_path')->nullable();

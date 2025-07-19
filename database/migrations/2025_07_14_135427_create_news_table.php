@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('school_id')->default(0);
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('image')->nullable();
+            $table->unsignedBigInteger('featured_image_id')->nullable();
             $table->longText('content')->nullable();
             $table->integer('view_count')->default(0);
             $table->boolean('is_featured')->default(false);
