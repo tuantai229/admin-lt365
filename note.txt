@@ -1,0 +1,145 @@
+Menu setting SQL:
+=====
+UPDATE `lt365`.`settings` SET 
+`key` = 'main_navigation', 
+`value` = '[
+  {
+    "title": "Trang ch\\u1ee7",
+    "url": "/",
+    "children": []
+  },
+  {
+    "title": "Thi chuy\\u1ec3n c\\u1ea5p",
+    "url": "/thi-chuyen-cap",
+    "children": [
+      {
+        "title": "Thi v\\u00e0o l\\u1edbp 1",
+        "url": "/thi-chuyen-cap/thi-vao-lop-1",
+        "children": []
+      },
+      {
+        "title": "Thi v\\u00e0o l\\u1edbp 6",
+        "url": "/thi-chuyen-cap/thi-vao-lop-6",
+        "children": []
+      },
+      {
+        "title": "Thi v\\u00e0o l\\u1edbp 10",
+        "url": "/thi-chuyen-cap/thi-vao-lop-10",
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "Tr\\u01b0\\u1eddng h\\u1ecdc",
+    "url": "/truong-hoc",
+    "children": [
+      {
+        "title": "Ti\\u1ec3u h\\u1ecdc",
+        "url": "/truong-hoc/tieu-hoc",
+        "children": []
+      },
+      {
+        "title": "Trung h\\u1ecdc C\\u01a1 s\\u1edf",
+        "url": "/truong-hoc/trung-hoc-co-so",
+        "children": []
+      },
+      {
+        "title": "Trung h\\u1ecdc Ph\\u1ed5 th\\u00f4ng",
+        "url": "/truong-hoc/trung-hoc-pho-thong",
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "T\\u00e0i li\\u1ec7u",
+    "url": "/tai-lieu",
+    "children": [
+      {
+        "title": "\\u0110\\u1ec1 thi",
+        "url": "/tai-lieu/de-thi",
+        "children": []
+      },
+      {
+        "title": "T\\u00e0i li\\u1ec7u \\u00f4n t\\u1eadp",
+        "url": "/tai-lieu/tai-lieu-on-tap",
+        "children": []
+      },
+      {
+        "title": "B\\u00e0i t\\u1eadp",
+        "url": "/tai-lieu/bai-tap",
+        "children": []
+      },
+      {
+        "title": "B\\u00e0i gi\\u1ea3ng",
+        "url": "/tai-lieu/bai-giang",
+        "children": []
+      },
+      {
+        "title": "T\\u1ed5ng h\\u1ee3p l\\u00fd thuy\\u1ebft",
+        "url": "/tai-lieu/tong-hop-ly-thuyet",
+        "children": []
+      },
+      {
+        "title": "V\\u0103n m\\u1eabu",
+        "url": "/tai-lieu/van-mau",
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "Tin t\\u1ee9c",
+    "url": "/tin-tuc",
+    "children": [
+      {
+        "title": "Tin tuy\\u1ec3n sinh",
+        "url": "/tin-tuc/tin-tuyen-sinh",
+        "children": []
+      },
+      {
+        "title": "Th\\u00e0nh t\\u00edch h\\u1ecdc sinh",
+        "url": "/tin-tuc/thanh-tich-hoc-sinh",
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "T\\u01b0 v\\u1ea5n",
+    "url": "/tin-tuc",
+    "children": [
+      {
+        "title": "T\\u01b0 v\\u1ea5n ch\\u1ecdn tr\\u01b0\\u1eddng",
+        "url": "/tin-tuc/tu-van-chon-truong",
+        "children": []
+      },
+      {
+        "title": "H\\u01b0\\u1edbng d\\u1eabn thi c\\u1eed",
+        "url": "/tin-tuc/huong-dan-thi-cu",
+        "children": []
+      },
+      {
+        "title": "Kinh nghi\\u1ec7m \\u00f4n thi",
+        "url": "/tin-tuc/kinh-nghiem-on-thi",
+        "children": []
+      }
+    ]
+  },
+  {
+    "title": "Trung t\\u00e2m",
+    "url": "/trung-tam",
+    "children": []
+  },
+  {
+    "title": "Gi\\u00e1o vi\\u00ean",
+    "url": "/giao-vien",
+    "children": []
+  },
+  {
+    "title": "Li\\u00ean h\\u1ec7",
+    "url": "/lien-he",
+    "children": []
+  }
+]', 
+`created_at` = '2025-07-23 14:45:29', 
+`updated_at` = '2025-07-23 14:45:29' 
+WHERE `id` = 4;
+=====
