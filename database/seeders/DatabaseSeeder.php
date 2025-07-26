@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             SchoolSeeder::class,
             TeacherSeeder::class,
             CenterSeeder::class,
+            HomeSettingsSeeder::class,
         ]);
     }
 }
