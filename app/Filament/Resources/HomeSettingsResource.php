@@ -84,7 +84,6 @@ class HomeSettingsResource extends Resource
                                                                 
                                                                 TextInput::make('button1_url')
                                                                     ->label('Link nút 1')
-                                                                    ->url()
                                                                     ->placeholder('https://example.com hoặc /trang-noi-bo'),
                                                                 
                                                                 Select::make('button1_color_class')
@@ -110,7 +109,6 @@ class HomeSettingsResource extends Resource
                                                                 
                                                                 TextInput::make('button2_url')
                                                                     ->label('Link nút 2')
-                                                                    ->url()
                                                                     ->placeholder('https://example.com hoặc /trang-noi-bo'),
                                                                 
                                                                 Select::make('button2_color_class')
@@ -183,7 +181,6 @@ class HomeSettingsResource extends Resource
 
                                                 TextInput::make('button_url')
                                                     ->label('🔗 Link nút "Xem thêm"')
-                                                    ->url()
                                                     ->placeholder('https://example.com hoặc /trang-noi-bo')
                                                     ->helperText('Đường dẫn khi click nút "Xem thêm"'),
                                             ])
