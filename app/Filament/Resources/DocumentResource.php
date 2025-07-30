@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\SEOSection;
 use App\Filament\Resources\DocumentResource\Pages;
 use App\Models\Document;
 use App\Models\Level;
@@ -256,6 +257,11 @@ class DocumentResource extends Resource
                                     ->profile('default')
                                     ->columnSpanFull()
                                     ->helperText('Mô tả chi tiết về tài liệu, hướng dẫn sử dụng, v.v...'),
+                            ]),
+                        
+                        Forms\Components\Tabs\Tab::make('SEO')
+                            ->schema([
+                                SEOSection::make(),
                             ]),
                     ])
                     ->columnSpanFull(),

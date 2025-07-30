@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasMetaSeo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Awcodes\Curator\Models\Media;
 
 class News extends Model
 {
-    use HasFactory;
+    use HasFactory, HasMetaSeo;
 
     protected $fillable = [
         'admin_user_id',

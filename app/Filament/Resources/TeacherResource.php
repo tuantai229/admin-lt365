@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\SEOSection;
 use App\Filament\Resources\TeacherResource\Pages;
 use App\Models\Teacher;
 use App\Models\Province;
@@ -197,6 +198,8 @@ class TeacherResource extends Resource
                             ->helperText('Trạng thái hiển thị của giáo viên'),
                     ])
                     ->columns(2),
+                
+                SEOSection::make(),
             ]);
     }
 

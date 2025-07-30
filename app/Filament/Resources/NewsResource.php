@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\SEOSection;
 use App\Filament\Resources\NewsResource\Pages;
 use App\Models\News;
 use App\Models\NewsCategory;
@@ -189,6 +190,8 @@ class NewsResource extends Resource
                             ->helperText('Số lượt xem tin tức (tự động cập nhật)'),
                     ])
                     ->columns(2),
+
+                SEOSection::make(),
             ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\SEOSection;
 use App\Filament\Resources\SchoolResource\Pages;
 use App\Filament\Resources\SchoolResource\RelationManagers;
 use App\Models\School;
@@ -266,6 +267,9 @@ class SchoolResource extends Resource
                                     ->defaultItems(0)
                                     ->addActionLabel('Thêm thống kê tuyển sinh'),
                             ]),
+                        
+                        SEOSection::make(),
+
                     ])
                     ->columnSpan(['lg' => 2]),
 

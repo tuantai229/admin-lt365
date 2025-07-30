@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\SEOSection;
 use App\Filament\Resources\CenterResource\Pages;
 use App\Models\Center;
 use App\Models\Province;
@@ -222,6 +223,8 @@ class CenterResource extends Resource
                             ->helperText('Trạng thái hiển thị của trung tâm'),
                     ])
                     ->columns(2),
+
+                SEOSection::make(),
             ]);
     }
 
