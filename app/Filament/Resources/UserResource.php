@@ -306,6 +306,7 @@ class UserResource extends Resource
                 ]),
             ])
             ->defaultSort('created_at', 'desc')
+            ->defaultSort('id', 'desc')
             ->recordUrl(null);
     }
 

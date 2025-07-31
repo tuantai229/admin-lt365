@@ -236,6 +236,7 @@ class PageResource extends Resource
                 ]),
             ])
             ->defaultSort('created_at', 'desc')
+            ->defaultSort('id', 'desc')
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ]);

@@ -189,7 +189,8 @@ class OrderResource extends Resource
                         ->action(fn (Collection $records) => $records->each->update(['status' => 'paid']))
                         ->icon('heroicon-o-check-circle'),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function infolist(Infolist $infolist): Infolist

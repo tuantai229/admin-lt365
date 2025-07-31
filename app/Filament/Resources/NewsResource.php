@@ -383,7 +383,10 @@ class NewsResource extends Resource
                         ->deselectRecordsAfterCompletion(),
                 ]),
             ])
+            ->reorderable('sort_order')
             ->defaultSort('sort_order', 'asc')
+            ->defaultSort('created_at', 'desc')
+            ->defaultSort('id', 'desc')
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ]);

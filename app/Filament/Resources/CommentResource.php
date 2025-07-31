@@ -220,7 +220,8 @@ class CommentResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->defaultSort('id', 'desc');
     }
 
     public static function getPages(): array

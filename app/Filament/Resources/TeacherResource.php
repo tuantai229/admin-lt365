@@ -310,7 +310,10 @@ class TeacherResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('sort_order', 'asc');
+            ->reorderable('sort_order')
+            ->defaultSort('sort_order', 'asc')
+            ->defaultSort('created_at', 'desc')
+            ->defaultSort('id', 'desc');
     }
 
     public static function getRelations(): array
