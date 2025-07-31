@@ -5,17 +5,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RoleResource\Pages;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Section;
+use Illuminate\Support\Str;
 
 class RoleResource extends Resource
 {
@@ -60,24 +60,75 @@ class RoleResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Section::make()
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Tên phân quyền')
-                            ->minLength(2)
-                            ->maxLength(255)
-                            ->required()
-                            ->unique(ignoreRecord: true),
-                        Select::make('permissions')
-                            ->label('Quyền')
-                            ->multiple()
-                            ->relationship('permissions', 'name')
-                            ->preload()
-                            ->searchable()
-                    ])
-            ]);
+        $permissionGroups = self::getPermissionGroups();
+
+        $schema = [
+            Section::make()
+                ->schema([
+                    TextInput::make('name')
+                        ->label('Tên phân quyền')
+                        ->minLength(2)
+                        ->maxLength(255)
+                        ->required()
+                        ->unique(ignoreRecord: true),
+                ])
+        ];
+
+        foreach ($permissionGroups as $groupName => $permissions) {
+            $checkboxes = collect($permissions)->map(function ($label, $name) {
+                return Checkbox::make('permissions_map.' . $name)
+                    ->label($label);
+            })->all();
+
+            $schema[] = Section::make($groupName)
+                ->schema($checkboxes)
+                ->columns(4);
+        }
+
+        return $form->schema($schema);
+    }
+
+    private static function getPermissionGroups(): array
+    {
+        $permissions = Permission::all();
+        $groupedPermissions = [];
+
+        $translationMap = [
+            'view_any' => 'Xem danh sách',
+            'view' => 'Xem chi tiết',
+            'create' => 'Tạo mới',
+            'update' => 'Cập nhật',
+            'delete' => 'Xóa',
+            'delete_any' => 'Xóa nhiều',
+            'restore' => 'Phục hồi',
+            'restore_any' => 'Phục hồi nhiều',
+            'force_delete' => 'Xóa vĩnh viễn',
+            'force_delete_any' => 'Xóa vĩnh viễn nhiều',
+            'replicate' => 'Nhân bản',
+            'reorder' => 'Sắp xếp lại',
+            'attach' => 'Đính kèm',
+            'detach' => 'Gỡ đính kèm',
+            'export' => 'Xuất file',
+        ];
+
+        foreach ($permissions as $permission) {
+            $parts = explode('_', $permission->name);
+            $actionKey = $parts[0];
+            if (count($parts) > 2 && in_array($parts[1], ['any'])) {
+                $actionKey = $parts[0] . '_' . $parts[1];
+            }
+
+            $translatedAction = $translationMap[$actionKey] ?? Str::ucfirst(str_replace('_', ' ', $actionKey));
+            $permissionLabel = $translatedAction . ' (' . $permission->name . ')';
+            
+            $moduleName = Str::ucfirst(str_replace('-', ' ', last($parts)));
+
+            $groupedPermissions[$moduleName][$permission->name] = $permissionLabel;
+        }
+        
+        ksort($groupedPermissions);
+
+        return $groupedPermissions;
     }
 
     public static function table(Table $table): Table
