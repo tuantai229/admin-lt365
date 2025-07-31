@@ -14,10 +14,16 @@ class CreateRole extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        $permissions = collect($data['permissions_map'] ?? [])
-            ->filter(fn ($value) => $value)
-            ->keys()
-            ->all();
+        $allPermissions = [];
+        if (isset($data['permissions_map']) && is_array($data['permissions_map'])) {
+            foreach ($data['permissions_map'] as $groupPermissions) {
+                if (is_array($groupPermissions)) {
+                    $allPermissions = array_merge($allPermissions, $groupPermissions);
+                }
+            }
+        }
+        
+        $uniquePermissions = array_unique($allPermissions);
 
         /** @var Role $role */
         $role = static::getModel()::create([
@@ -25,7 +31,7 @@ class CreateRole extends CreateRecord
             'guard_name' => 'admin',
         ]);
 
-        $role->syncPermissions($permissions);
+        $role->syncPermissions($uniquePermissions);
 
         return $role;
     }

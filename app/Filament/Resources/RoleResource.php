@@ -11,7 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Section;
@@ -75,20 +75,21 @@ class RoleResource extends Resource
         ];
 
         foreach ($permissionGroups as $groupName => $permissions) {
-            $checkboxes = collect($permissions)->map(function ($label, $name) {
-                return Checkbox::make('permissions_map.' . $name)
-                    ->label($label);
-            })->all();
-
             $schema[] = Section::make($groupName)
-                ->schema($checkboxes)
-                ->columns(4);
+                ->schema([
+                    CheckboxList::make('permissions_map.' . Str::slug($groupName))
+                        ->label('')
+                        ->options($permissions)
+                        ->bulkToggleable()
+                        ->columns(4),
+                ])
+                ->collapsible();
         }
 
         return $form->schema($schema);
     }
 
-    private static function getPermissionGroups(): array
+    public static function getPermissionGroups(): array
     {
         $moduleNames = [
             'documents' => 'Quản lý Tài liệu',

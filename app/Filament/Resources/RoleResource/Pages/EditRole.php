@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class EditRole extends EditRecord
 {
@@ -14,24 +15,40 @@ class EditRole extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $permissions = $this->record->permissions->pluck('name')->toArray();
-        $data['permissions_map'] = array_fill_keys($permissions, true);
+        $permissionGroups = RoleResource::getPermissionGroups();
+        $rolePermissions = $this->record->permissions->pluck('name')->toArray();
+        $map = [];
+
+        foreach ($permissionGroups as $groupName => $permissions) {
+            $groupSlug = Str::slug($groupName);
+            $map[$groupSlug] = [];
+            foreach (array_keys($permissions) as $permissionName) {
+                if (in_array($permissionName, $rolePermissions)) {
+                    $map[$groupSlug][] = $permissionName;
+                }
+            }
+        }
+
+        $data['permissions_map'] = $map;
         return $data;
     }
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        $permissions = collect($data['permissions_map'] ?? [])
-            ->filter(fn ($value) => $value)
-            ->keys()
-            ->all();
+        $allPermissions = [];
+        if (isset($data['permissions_map']) && is_array($data['permissions_map'])) {
+            foreach ($data['permissions_map'] as $groupPermissions) {
+                if (is_array($groupPermissions)) {
+                    $allPermissions = array_merge($allPermissions, $groupPermissions);
+                }
+            }
+        }
+        
+        $uniquePermissions = array_unique($allPermissions);
 
         /** @var Role $record */
-        $record->update([
-            'name' => $data['name'],
-        ]);
-        
-        $record->syncPermissions($permissions);
+        $record->update(['name' => $data['name']]);
+        $record->syncPermissions($uniquePermissions);
 
         return $record;
     }
