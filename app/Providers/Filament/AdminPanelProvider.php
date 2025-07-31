@@ -80,6 +80,30 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationCountBadge(),
             ])
             ->userMenuItems([
+                'permissions' => MenuItem::make()
+                    ->label(function () {
+                        $user = auth('admin')->user();
+                        $roles = $user->getRoleNames()->toArray();
+                        $allPermissions = $user->getAllPermissions();
+                        $permissionCount = $allPermissions->count();
+                        
+                        $displayText = '';
+                        if (!empty($roles)) {
+                            $displayText .= 'Vai trò: ' . implode(', ', $roles);
+                        }
+                        if ($permissionCount > 0) {
+                            if (!empty($roles)) $displayText .= ' | ';
+                            $displayText .= 'Quyền: ' . $permissionCount . ' permissions';
+                        }
+                        if (empty($roles) && $permissionCount == 0) {
+                            $displayText = 'Chưa có vai trò/quyền';
+                        }
+                        
+                        return $displayText;
+                    })
+                    ->icon('heroicon-o-shield-check')
+                    ->url('#')
+                    ->openUrlInNewTab(false),
                 'password' => MenuItem::make()
                     ->label('Đổi mật khẩu')
                     ->url(fn (): string => ChangePassword::getUrl())

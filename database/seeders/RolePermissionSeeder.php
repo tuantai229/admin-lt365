@@ -60,13 +60,13 @@ class RolePermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission, 'guard_name' => 'admin']);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'admin']);
         }
 
         // Tạo roles
-        $superAdmin = Role::create(['name' => 'Super Admin', 'guard_name' => 'admin']);
-        $admin = Role::create(['name' => 'Admin', 'guard_name' => 'admin']);
-        $moderator = Role::create(['name' => 'Moderator', 'guard_name' => 'admin']);
+        $superAdmin = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'admin']);
+        $admin = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'admin']);
+        $moderator = Role::firstOrCreate(['name' => 'Moderator', 'guard_name' => 'admin']);
 
         // Gán quyền cho Super Admin (toàn quyền)
         $superAdmin->givePermissionTo(Permission::all());
