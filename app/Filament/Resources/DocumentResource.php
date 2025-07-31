@@ -36,6 +36,37 @@ class DocumentResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_documents');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_documents');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('admin')->user()->can('create_documents');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_documents');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_documents');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_documents');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

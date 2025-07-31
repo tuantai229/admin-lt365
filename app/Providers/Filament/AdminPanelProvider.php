@@ -89,11 +89,11 @@ class AdminPanelProvider extends PanelProvider
                         
                         $displayText = '';
                         if (!empty($roles)) {
-                            $displayText .= 'Vai trò: ' . implode(', ', $roles);
+                            $displayText .= 'VT: ' . implode(', ', $roles);
                         }
                         if ($permissionCount > 0) {
                             if (!empty($roles)) $displayText .= ' | ';
-                            $displayText .= 'Quyền: ' . $permissionCount . ' permissions';
+                            $displayText .= '(' . $permissionCount . ')';
                         }
                         if (empty($roles) && $permissionCount == 0) {
                             $displayText = 'Chưa có vai trò/quyền';

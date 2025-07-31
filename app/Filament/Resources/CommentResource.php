@@ -34,6 +34,38 @@ class CommentResource extends Resource
     protected static ?string $pluralModelLabel = 'Bình luận';
     protected static ?int $navigationSort = 1;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_comments');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_comments');
+    }
+
+    // Không cho phép tạo bình luận từ admin
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_comments');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_comments');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_comments');
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -228,7 +260,6 @@ class CommentResource extends Resource
     {
         return [
             'index' => Pages\ListComments::route('/'),
-            'create' => Pages\CreateComment::route('/create'),
             'edit' => Pages\EditComment::route('/{record}/edit'),
         ];
     }

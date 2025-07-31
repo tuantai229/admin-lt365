@@ -21,6 +21,38 @@ class NewsletterResource extends Resource
     protected static ?string $pluralModelLabel = 'Đăng ký bản tin';
     protected static ?int $navigationSort = 3;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_newsletters');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_newsletters');
+    }
+
+    // Không cho phép tạo từ admin
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit($record): bool
+    {
+        return false;
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_newsletters');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_newsletters');
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -83,8 +115,6 @@ class NewsletterResource extends Resource
     {
         return [
             'index' => Pages\ListNewsletters::route('/'),
-            'create' => Pages\CreateNewsletter::route('/create'),
-            'edit' => Pages\EditNewsletter::route('/{record}/edit'),
         ];
     }
 }

@@ -31,6 +31,17 @@ class HomeSettingsResource extends Resource
     
     protected static ?int $navigationSort = 3;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_settings');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_settings');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

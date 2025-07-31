@@ -38,6 +38,37 @@ class CenterResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_centers');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_centers');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('admin')->user()->can('create_centers');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_centers');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_centers');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_centers');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

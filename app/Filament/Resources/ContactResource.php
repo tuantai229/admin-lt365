@@ -21,6 +21,38 @@ class ContactResource extends Resource
     protected static ?string $pluralModelLabel = 'Liên hệ';
     protected static ?int $navigationSort = 2;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_contacts');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_contacts');
+    }
+
+    // Không cho phép tạo liên hệ từ admin
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_contacts');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_contacts');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_contacts');
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -91,7 +123,6 @@ class ContactResource extends Resource
     {
         return [
             'index' => Pages\ListContacts::route('/'),
-            'create' => Pages\CreateContact::route('/create'),
             'edit' => Pages\EditContact::route('/{record}/edit'),
         ];
     }

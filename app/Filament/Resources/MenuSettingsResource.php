@@ -23,6 +23,17 @@ class MenuSettingsResource extends Resource
     
     protected static ?int $navigationSort = 2;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_settings');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_settings');
+    }
+
     public static function form(Form $form): Form
     {
         $mainNavigation = Setting::getMainNavigation();

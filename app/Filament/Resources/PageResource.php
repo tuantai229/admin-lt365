@@ -29,6 +29,37 @@ class PageResource extends Resource
 
     protected static ?int $navigationSort = 7;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_pages');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_pages');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('admin')->user()->can('create_pages');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_pages');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_pages');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_pages');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

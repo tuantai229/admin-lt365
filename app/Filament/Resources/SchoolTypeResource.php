@@ -28,6 +28,37 @@ class SchoolTypeResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_school_types');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_school_types');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('admin')->user()->can('create_school_types');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_school_types');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_school_types');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_school_types');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

@@ -48,6 +48,37 @@ class OrderResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_orders');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_orders');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('admin')->user()->can('create_orders');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_orders');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_orders');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_orders');
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([

@@ -27,6 +27,37 @@ class NewsCategoryResource extends Resource
 
     protected static ?int $navigationSort = 6;
 
+    // Kiểm tra permission
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth('admin')->user()->can('view_any_news_categories');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth('admin')->user()->can('view_any_news_categories');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth('admin')->user()->can('create_news_categories');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth('admin')->user()->can('update_news_categories');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth('admin')->user()->can('delete_news_categories');
+    }
+
+    public static function canView($record): bool
+    {
+        return auth('admin')->user()->can('view_news_categories');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
