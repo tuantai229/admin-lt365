@@ -90,10 +90,33 @@ class RoleResource extends Resource
 
     private static function getPermissionGroups(): array
     {
-        $permissions = Permission::all();
-        $groupedPermissions = [];
+        $moduleNames = [
+            'documents' => 'Quản lý Tài liệu',
+            'levels' => 'Quản lý Cấp học',
+            'subjects' => 'Quản lý Môn học',
+            'document_types' => 'Quản lý Loại tài liệu',
+            'difficulty_levels' => 'Quản lý Độ khó',
+            'schools' => 'Quản lý Trường học',
+            'school_types' => 'Quản lý Loại trường',
+            'news' => 'Quản lý Tin tức',
+            'news_categories' => 'Quản lý Danh mục tin tức',
+            'pages' => 'Quản lý Trang đơn',
+            'teachers' => 'Quản lý Giáo viên',
+            'centers' => 'Quản lý Trung tâm',
+            'orders' => 'Quản lý Đơn hàng',
+            'comments' => 'Quản lý Bình luận',
+            'ratings' => 'Quản lý Đánh giá',
+            'contacts' => 'Quản lý Liên hệ',
+            'newsletters' => 'Quản lý Đăng ký bản tin',
+            'tags' => 'Quản lý Tags',
+            'admin_users' => 'Quản lý Tài khoản quản trị',
+            'users' => 'Quản lý Tài khoản người dùng',
+            'roles' => 'Quản lý Phân quyền',
+            'permissions' => 'Quản lý Quyền',
+            'settings' => 'Quản lý Cài đặt',
+        ];
 
-        $translationMap = [
+        $actionNames = [
             'view_any' => 'Xem danh sách',
             'view' => 'Xem chi tiết',
             'create' => 'Tạo mới',
@@ -104,29 +127,38 @@ class RoleResource extends Resource
             'restore_any' => 'Phục hồi nhiều',
             'force_delete' => 'Xóa vĩnh viễn',
             'force_delete_any' => 'Xóa vĩnh viễn nhiều',
-            'replicate' => 'Nhân bản',
-            'reorder' => 'Sắp xếp lại',
-            'attach' => 'Đính kèm',
-            'detach' => 'Gỡ đính kèm',
-            'export' => 'Xuất file',
         ];
 
+        $permissions = Permission::all();
+        $groupedPermissions = [];
+
         foreach ($permissions as $permission) {
-            $parts = explode('_', $permission->name);
-            $actionKey = $parts[0];
-            if (count($parts) > 2 && in_array($parts[1], ['any'])) {
-                $actionKey = $parts[0] . '_' . $parts[1];
+            $foundAction = null;
+            $foundModuleKey = null;
+
+            $bestMatchAction = '';
+            foreach (array_keys($actionNames) as $actionKey) {
+                if (str_starts_with($permission->name, $actionKey . '_')) {
+                    if (strlen($actionKey) > strlen($bestMatchAction)) {
+                        $bestMatchAction = $actionKey;
+                    }
+                }
             }
 
-            $translatedAction = $translationMap[$actionKey] ?? Str::ucfirst(str_replace('_', ' ', $actionKey));
-            $permissionLabel = $translatedAction . ' (' . $permission->name . ')';
-            
-            $moduleName = Str::ucfirst(str_replace('-', ' ', last($parts)));
+            if ($bestMatchAction) {
+                $foundAction = $bestMatchAction;
+                $foundModuleKey = substr($permission->name, strlen($foundAction) + 1);
+            }
 
-            $groupedPermissions[$moduleName][$permission->name] = $permissionLabel;
+            if ($foundAction && isset($moduleNames[$foundModuleKey])) {
+                $moduleLabel = $moduleNames[$foundModuleKey];
+                $actionLabel = $actionNames[$foundAction];
+                $permissionLabel = $actionLabel . ' (' . $permission->name . ')';
+                $groupedPermissions[$moduleLabel][$permission->name] = $permissionLabel;
+            } else {
+                $groupedPermissions['Khác'][$permission->name] = str_replace('_', ' ', $permission->name);
+            }
         }
-        
-        ksort($groupedPermissions);
 
         return $groupedPermissions;
     }
