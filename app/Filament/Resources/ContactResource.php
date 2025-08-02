@@ -108,6 +108,7 @@ class ContactResource extends Resource
                     ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -123,6 +124,7 @@ class ContactResource extends Resource
     {
         return [
             'index' => Pages\ListContacts::route('/'),
+            'view' => Pages\ViewContact::route('/{record}'),
             'edit' => Pages\EditContact::route('/{record}/edit'),
         ];
     }

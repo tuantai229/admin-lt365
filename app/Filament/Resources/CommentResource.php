@@ -244,6 +244,7 @@ class CommentResource extends Resource
                     ->query(fn (Builder $query): Builder => $query->where('parent_id', '>', 0)),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -260,6 +261,7 @@ class CommentResource extends Resource
     {
         return [
             'index' => Pages\ListComments::route('/'),
+            'view' => Pages\ViewComment::route('/{record}'),
             'edit' => Pages\EditComment::route('/{record}/edit'),
         ];
     }
