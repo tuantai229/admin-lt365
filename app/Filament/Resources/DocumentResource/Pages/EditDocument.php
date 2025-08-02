@@ -51,7 +51,6 @@ class EditDocument extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
             Actions\Action::make('download')
                 ->label('Tải xuống')
@@ -63,8 +62,4 @@ class EditDocument extends EditRecord
         ];
     }
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
 }
